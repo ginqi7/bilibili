@@ -8,6 +8,8 @@ import (
 	"os/exec"
 	"path"
 	"sort"
+	"strconv"
+	"strings"
 
 	bilibili "github.com/misssonder/bilibili/pkg/client"
 	"github.com/misssonder/bilibili/pkg/errors"
@@ -119,6 +121,15 @@ func selectMediaQuality(title string, qns []bilibili.Qn) (bilibili.Qn, error) {
 	return qns[selected], nil
 }
 
+func padLeft(num int, length int, pad string) string {
+	str := strconv.Itoa(num)
+	if len(str) >= length {
+		return str
+	}
+	padding := strings.Repeat(pad, length-len(str))
+	return padding + str
+}
+
 func download(id string) error {
 	var (
 		bvID   string
@@ -141,34 +152,42 @@ func download(id string) error {
 		bvID = episode.BvID
 		epid = episode.EpID
 		title = episode.Title
+		format, err := selectFormat()
+		if err != nil {
+			return err
+		}
+
+		if len(outputFile) == 0 {
+			outputFile = fmt.Sprintf("%s.mp4", title)
+		}
+		switch format {
+		case bilibili.FnvalMP4:
+			return downloadMp4(season, bvID, cid, epid)
+		case bilibili.FnvalDash:
+			return downloadDash(season, bvID, cid, epid)
+		}
 	} else {
 		info, err := getVideoInfo(id)
 		if err != nil {
 			return err
 		}
-		page, err := selectVideoInfo(info)
-		if err != nil {
-			return err
+		size := len(info.Pages)
+		for index, page := range info.Pages {
+			cid = page.CID
+			bvID = id
+			title = page.Part
+			outputFile = fmt.Sprintf("%s-%s.mp4", padLeft(index, len(strconv.Itoa(size)), "0"), title)
+			fmt.Printf("Download '[%d/%d]%s'", index, size, outputFile)
+			downloadMp4(season, bvID, cid, epid)
 		}
-		cid = page.CID
-		bvID = id
-		title = info.Title
-	}
 
-	format, err := selectFormat()
-	if err != nil {
-		return err
-	}
-
-	if len(outputFile) == 0 {
-		outputFile = fmt.Sprintf("%s.mp4", title)
-	}
-
-	switch format {
-	case bilibili.FnvalMP4:
-		return downloadMp4(season, bvID, cid, epid)
-	case bilibili.FnvalDash:
-		return downloadDash(season, bvID, cid, epid)
+		// page, err := selectVideoInfo(info)
+		// if err != nil {
+		// 	return err
+		// }
+		// cid = page.CID
+		// bvID = id
+		// title = info.Title
 	}
 	return nil
 }
