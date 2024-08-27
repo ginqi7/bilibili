@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/misssonder/bilibili/pkg/errors"
+	"github.com/ginqi7/bilibili/pkg/errors"
 )
 
 const (

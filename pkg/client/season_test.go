@@ -3,7 +3,7 @@ package client
 import (
 	"testing"
 
-	"github.com/misssonder/bilibili/internal/util"
+	"github.com/ginqi7/bilibili/internal/util"
 )
 
 func TestClient_SeasonSection(t *testing.T) {

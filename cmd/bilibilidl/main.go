@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	bilibili "github.com/misssonder/bilibili/pkg/client"
+	bilibili "github.com/ginqi7/bilibili/pkg/client"
 )
 
 var (

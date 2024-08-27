@@ -7,7 +7,7 @@ import (
 	"path"
 	"strings"
 
-	bilibili "github.com/misssonder/bilibili/pkg/client"
+	bilibili "github.com/ginqi7/bilibili/pkg/client"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -38,9 +38,11 @@ func isLogin() bool {
 	if err != nil {
 		return false
 	}
+
 	client.SetCookie(cookie)
 	info, err := client.NavInfo()
 	if err != nil {
+		fmt.Println(err)
 		return false
 	}
 	return info.Data.IsLogin

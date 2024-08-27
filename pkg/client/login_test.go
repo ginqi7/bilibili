@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/misssonder/bilibili/internal/util"
+	"github.com/ginqi7/bilibili/internal/util"
 )
 
 func TestLogin(t *testing.T) {

@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/misssonder/bilibili/pkg/errors"
-	"github.com/misssonder/bilibili/pkg/qrcode"
+	"github.com/ginqi7/bilibili/pkg/errors"
+	"github.com/ginqi7/bilibili/pkg/qrcode"
 )
 
 const (
@@ -54,7 +54,7 @@ type NavInfoResp struct {
 			CurrentLevel int    `json:"current_level"`
 			CurrentMin   int    `json:"current_min"`
 			CurrentExp   int    `json:"current_exp"`
-			NextExp      string `json:"next_exp"`
+			NextExp      int `json:"next_exp"`
 		} `json:"level_info"`
 		Mid            int     `json:"mid"`
 		MobileVerified int     `json:"mobile_verified"`

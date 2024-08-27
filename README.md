@@ -3,7 +3,7 @@
 
 ## 安装
 ```shell
-go install github.com/misssonder/bilibili/cmd/bilibilidl
+go install github.com/ginqi7/bilibili/cmd/bilibilidl
 ```
 
 ## Example

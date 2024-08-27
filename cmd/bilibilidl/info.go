@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
-	bilibili "github.com/misssonder/bilibili/pkg/client"
-	"github.com/misssonder/bilibili/pkg/video"
+	bilibili "github.com/ginqi7/bilibili/pkg/client"
+	"github.com/ginqi7/bilibili/pkg/video"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 )

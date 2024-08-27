@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/misssonder/bilibili/internal/util"
-	"github.com/misssonder/bilibili/pkg/video"
+	"github.com/ginqi7/bilibili/internal/util"
+	"github.com/ginqi7/bilibili/pkg/video"
 )
 
 func TestClient_GetVideoInfo(t *testing.T) {

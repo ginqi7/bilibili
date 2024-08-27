@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/misssonder/bilibili/pkg/errors"
+	"github.com/ginqi7/bilibili/pkg/errors"
 )
 
 const (

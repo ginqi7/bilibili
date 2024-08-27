@@ -11,9 +11,9 @@ import (
 	"strconv"
 	"strings"
 
-	bilibili "github.com/misssonder/bilibili/pkg/client"
-	"github.com/misssonder/bilibili/pkg/errors"
-	"github.com/misssonder/bilibili/pkg/video"
+	bilibili "github.com/ginqi7/bilibili/pkg/client"
+	"github.com/ginqi7/bilibili/pkg/errors"
+	"github.com/ginqi7/bilibili/pkg/video"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/vbauerster/mpb/v5"

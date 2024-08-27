@@ -1,4 +1,4 @@
-module github.com/misssonder/bilibili
+module github.com/ginqi7/bilibili
 
 go 1.18
 
