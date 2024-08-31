@@ -176,9 +176,25 @@ func download(id string) error {
 			cid = page.CID
 			bvID = id
 			title = page.Part
-			outputFile = fmt.Sprintf("%s-%s.mp4", padLeft(index, len(strconv.Itoa(size)), "0"), title)
-			fmt.Printf("Download '[%d/%d]%s'", index, size, outputFile)
-			downloadMp4(season, bvID, cid, epid)
+			outputFile = fmt.Sprintf("%s-%s.mp4", padLeft(index+1, len(strconv.Itoa(size)), "0"), title)
+			fileSize, err := getFileSize(outputFile)
+			if err == nil {
+				durl, err:= getMp4Durl(season, bvID, cid, epid)
+				if err != nil {
+					return err
+				}
+				videoSize := durl.Size
+				if int(fileSize) < videoSize {
+					fmt.Printf("Download '[%d/%d]%s'\n", index+1, size, outputFile)
+					downloadByDurl(durl)
+				} else {
+					fmt.Printf("File Exists '[%d/%d]%s'\n", index+1, size, outputFile)
+				}
+
+			} else {
+				fmt.Printf("Download '[%d/%d]%s'\n", index+1, size, outputFile)
+				downloadMp4(season, bvID, cid, epid)
+			}
 		}
 
 		// page, err := selectVideoInfo(info)
@@ -191,6 +207,47 @@ func download(id string) error {
 	}
 	return nil
 }
+
+
+
+func getFileSize(filename string) (int64, error) {
+    info, err := os.Stat(filename)
+    if err != nil {
+        return 0, err
+    }
+    return info.Size(), nil
+}
+
+func getMp4Durl(season bool, bvID string, cid int64, epid int64) (bilibili.Durl, error) {
+	var durl bilibili.Durl
+	if season {
+		playV2UrlResp, err := client.PlayUrlV2(epid, bilibili.Qn1080P, bilibili.FnvalMP4)
+		if err != nil {
+			return bilibili.Durl{}, err
+		}
+		durl = playV2UrlResp.Result.VideoInfo.Durl[0]
+	} else {
+		playUrlResp, err := client.PlayUrl(bvID, cid, bilibili.Qn1080P, bilibili.FnvalMP4)
+		if err != nil {
+			return bilibili.Durl{}, err
+		}
+		durl = playUrlResp.Data.Durl[0]
+	}
+	return durl, nil
+}
+
+func downloadByDurl(durl bilibili.Durl) error {
+	var url = durl.URL
+	writer, err := getDownloadDestFile(outputDir, outputFile)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = writer.Close()
+	}()
+	return downloadMedia("Video", url, writer)
+}
+
 
 func downloadMp4(season bool, bvID string, cid int64, epid int64) error {
 	var url string
